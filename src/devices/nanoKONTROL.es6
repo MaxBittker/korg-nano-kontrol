@@ -7,7 +7,7 @@ function range(start, end, step, fromRight) {
 
   while (length--) {
     result[fromRight ? length : ++index] = start;
-    start += step;
+    start += step || 1;
   }
   return result;
 }
