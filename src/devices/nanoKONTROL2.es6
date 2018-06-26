@@ -1,42 +1,51 @@
 "use strict";
 
-import _ from "lodash";
+function range(start, end, step, fromRight) {
+  var index = -1,
+    length = Math.max(Math.ceil((end - start) / (step || 1)), 0),
+    result = Array(length);
+
+  while (length--) {
+    result[fromRight ? length : ++index] = start;
+    start += step;
+  }
+  return result;
+}
 
 import Debug from "debug";
 import Device from "../device";
-import {eachWithIndex} from "../util";
+import { eachWithIndex } from "../util";
 
 export default class NanoKONTROL2 extends Device {
-
-  static get deviceName(){
+  static get deviceName() {
     return "nanoKONTROL2";
   }
-  static detect(name){
+  static detect(name) {
     return /^nanoKONTROL2\s/i.test(name);
   }
 
-  constructor(input, name){
+  constructor(input, name) {
     super(input, name);
     this.debug = Debug("korg-nano-kontrol:nanoKONTROL2");
     this.debug("created");
 
-    eachWithIndex(_.range(0, 8), (index, code) => {
+    eachWithIndex(range(0, 8), (index, code) => {
       this.slider(code, index);
     });
 
-    eachWithIndex(_.range(16, 24), (index, code) => {
+    eachWithIndex(range(16, 24), (index, code) => {
       this.knob(code, index);
     });
 
-    eachWithIndex(_.range(32, 40), (index, code) => {
+    eachWithIndex(range(32, 40), (index, code) => {
       this.button(code, `s:${index}`);
     });
 
-    eachWithIndex(_.range(48, 56), (index, code) => {
+    eachWithIndex(range(48, 56), (index, code) => {
       this.button(code, `m:${index}`);
     });
 
-    eachWithIndex(_.range(64, 72), (index, code) => {
+    eachWithIndex(range(64, 72), (index, code) => {
       this.button(code, `r:${index}`);
     });
 
@@ -52,5 +61,4 @@ export default class NanoKONTROL2 extends Device {
     this.button(58, "track:prev");
     this.button(59, "track:next");
   }
-
 }

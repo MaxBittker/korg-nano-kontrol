@@ -36,7 +36,6 @@
     "debug": "*",
     "es6-promise": "*",
     "eventemitter2": "*",
-    "lodash": "^4.0.0",
     "midi": "*"
   },
   "repository": {
